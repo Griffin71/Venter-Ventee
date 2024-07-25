@@ -1,0 +1,145 @@
+/* style.css */
+ventor-ventee/
+├── index.html
+├── style.css
+├── script.js
+└── images/
+    └── icon.ico
+	
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: black;
+}
+
+.header {
+    background-color: #ffffff;
+    padding: 10px;
+    text-align: left;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.header img {
+    max-height: 40px;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.header-buttons button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.header-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 60px);
+    text-align: center;
+    padding: 80px 20px 20px 20px;
+}
+
+.feed {
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.create-options {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.create-options button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+}
+
+.create-options button:hover {
+    background-color: #218838;
+}
+
+.settings-bar {
+    position: fixed;
+    left: 0;
+    top: 60px;
+    width: 200px;
+    height: calc(100vh - 60px);
+    background-color: #333;
+    color: white;
+    display: none;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    z-index: 999;
+}
+
+.settings-bar button {
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.settings-bar button:hover {
+    background-color: #555;
+}
+
+.toggle-settings {
+    position: fixed;
+    left: 10px;
+    top: 70px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.toggle-settings:hover {
+    background-color: #0056b3;
+}

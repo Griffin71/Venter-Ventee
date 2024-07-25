@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="pixel.ico" type="icon.ico">
+    <title>Mood Tracker Puzzle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        #puzzle-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        #puzzle {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px 0;
+            width: 310px;
+        }
+
+        .piece {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .piece img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #target {
+            width: 310px;
+            height: 310px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            background-color: #e0e0e0;
+            border: 1px solid #ddd;
+            margin: 0 auto;
+        }
+
+        .dropzone {
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+
+        #questions {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h3>With Love From Venter-Ventee.</h3>
+    </header>
+    <div id="puzzle-container">
+        <h1>Mood Tracker Puzzle</h1>
+        <div id="puzzle">
+            <div class="piece" draggable="true" id="piece1"><img src="path/to/piece1.jpg" alt="Piece 1"></div>
+            <div class="piece" draggable="true" id="piece2"><img src="path/to/piece2.jpg" alt="Piece 2"></div>
+            <div class="piece" draggable="true" id="piece3"><img src="path/to/piece3.jpg" alt="Piece 3"></div>
+            <div class="piece" draggable="true" id="piece4"><img src="path/to/piece4.jpg" alt="Piece 4"></div>
+            <div class="piece" draggable="true" id="piece5"><img src="path/to/piece5.jpg" alt="Piece 5"></div>
+            <div class="piece" draggable="true" id="piece6"><img src="path/to/piece6.jpg" alt="Piece 6"></div>
+            <div class="piece" draggable="true" id="piece7"><img src="path/to/piece7.jpg" alt="Piece 7"></div>
+            <div class="piece" draggable="true" id="piece8"><img src="path/to/piece8.jpg" alt="Piece 8"></div>
+            <div class="piece" draggable="true" id="piece9"><img src="path/to/piece9.jpg" alt="Piece 9"></div>
+        </div>
+        <div id="target">
+            <div class="dropzone" data-id="piece1"></div>
+            <div class="dropzone" data-id="piece2"></div>
+            <div class="dropzone" data-id="piece3"></div>
+            <div class="dropzone" data-id="piece4"></div>
+            <div class="dropzone" data-id="piece5"></div>
+            <div class="dropzone" data-id="piece6"></div>
+            <div class="dropzone" data-id="piece7"></div>
+            <div class="dropzone" data-id="piece8"></div>
+            <div class="dropzone" data-id="piece9"></div>
+        </div>
+        <div id="questions">
+            <h2>Reflect on Your Mood</h2>
+            <form id="mood-form">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username">
+                <label for="mood">How are you feeling today?</label>
+                <input type="text" id="mood" name="mood">
+                <label for="highlight">What was the highlight of your day?</label>
+                <input type="text" id="highlight" name="highlight">
+                <label for="bother">Did anything bother you today?</label>
+                <input type="text" id="bother" name="bother">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pieces = document.querySelectorAll('.piece');
+            const dropzones = document.querySelectorAll('.dropzone');
+            let draggedPiece = null;
+
+            pieces.forEach(piece => {
+                piece.addEventListener('dragstart', (event) => {
+                    draggedPiece = event.target;
+                });
+
+                piece.addEventListener('dragend', () => {
+                    draggedPiece = null;
+                });
+            });
+
+            dropzones.forEach(zone => {
+                zone.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                });
+
+                zone.addEventListener('drop', (event) => {
+                    if (event.target.childElementCount === 0 && draggedPiece) {
+                        event.target.appendChild(draggedPiece);
+                        checkPuzzleCompletion();
+                    }
+                });
+            });
+
+            const checkPuzzleCompletion = () => {
+                const completed = [...dropzones].every(zone => {
+                    const pieceId = zone.getAttribute('data-id');
+                    return zone.firstElementChild && zone.firstElementChild.id === pieceId;
+                });
+
+                if (completed) {
+                    alert('Puzzle completed!');
+                }
+            };
+
+            const form = document.getElementById('mood-form');
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                
+                const username = document.getElementById('username').value;
+                const mood = document.getElementById('mood').value;
+                const highlight = document.getElementById('highlight').value;
+                const bother = document.getElementById('bother').value;
+
+                // Save data to the backend
+                fetch('http://localhost:3001/mood-log', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, mood, highlight, bother })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Mood logged successfully!');
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

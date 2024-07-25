@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="icon" href="icon.ico" type="icon.ico">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: aqua;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .profile-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .profile-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .profile-info {
+            flex: 1;
+            margin-left: 20px;
+        }
+        .profile-info h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .profile-info p {
+            margin: 5px 0;
+        }
+        .profile-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .settings-button, .profile-actions button {
+            padding: 10px 20px;
+            border: none;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        .settings-button:hover, .profile-actions button:hover {
+            background-color: grey;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .modal-content h2 {
+            margin-top: 0;
+        }
+        .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        .modal-content input[type="file"] {
+            margin-top: 10px;
+        }
+        .modal-content button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border: none;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        .modal-content button:hover {
+            background-color: grey;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Post Styling */
+        .post {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .post-actions {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .post-actions span {
+            font-size: 0.9em;
+            color: #888;
+        }
+        .post-actions button {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .post-actions button:hover {
+            background-color: #eee;
+        }
+        .post-comments {
+            margin-top: 10px;
+        }
+        .comment {
+            border-bottom: 1px solid #ccc;
+            padding: 5px 0;
+        }
+        .comment:last-child {
+            border-bottom: none;
+        }
+        .comment .user {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        .comment .text {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>User Profile</h1>
+        <button onclick="location.href='feed.html'">Home</button>
+        <button class="settings-button" onclick="openSettings()">Settings</button>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-info">
+                <h2 id="username">Username</h2>
+                <p id="realName">Real Name</p>
+            </div>
+            <div class="profile-icon">
+                <img src="default-profile.png" alt="Profile Picture">
+                <input type="file" id="profilePicture" accept="image/*" onchange="updateProfilePicture(this)">
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <button onclick="openPostDialog()">Create Post</button>
+        </div>
+
+        <div id="postsContainer">
+            <!-- Posts will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Post Dialog -->
+    <div id="postDialog" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePostDialog()">&times;</span>
+            <h2>Create Post</h2>
+            <textarea id="postText" placeholder="Write something (max 500 words)..."></textarea>
+            <input type="file" id="postImage" accept="image/*, video/*">
+            <button onclick="submitPost()">Post</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSettings()">&times;</span>
+            <h2>Settings</h2>
+            <p>Update your settings here...</p>
+            <li><button onclick="location.href='About us.html'">About Us</button></li>
+            <li><button onclick="toggleTheme()">Change Theme to Dark Mode</button></li>
+            <li><button onclick="showExercises()">Exercises</button></li>
+            <li><button onclick="alert('Go Premium')">Go Premium</button></li>
+            <li><button onclick="showScreenManagement()">Screen Management</button></li>
+            <li><button onclick="location.href='box.html'">Suggestions & Improvements</button></li>
+            <li><button onclick="location.href='LorS.html'">Log Out</button></li>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            if (userInfo) {
+                document.getElementById('username').textContent = userInfo.username;
+                document.getElementById('realName').textContent = `${userInfo.firstName} ${userInfo.lastName}`;
+            }
+
+            loadPosts();
+        });
+
+        function loadPosts() {
+            const postsContainer = document.getElementById('postsContainer');
+            const posts = JSON.parse(localStorage.getItem('userPosts')) || [];
+            
+            posts.forEach(post => {
+                const postElem = document.createElement('div');
+                postElem.classList.add('post');
+                postElem.innerHTML = `
+                    <img src="${post.image}" alt="Post Image">
+                    <p>${post.description}</p>
+                    <div class="post-actions">
+                        <button onclick="likePost(${post.id})">Like</button>
+                        <button onclick="dislikePost(${post.id})">Dislike</button>
+                        <button onclick="sharePost(${post.id})">Share</button>
+                        <button onclick="reportPost(${post.id})">Report</button>
+                        <span>Likes: <span id="likesCount_${post.id}">${post.likes}</span></span>
+                        <span>Shares: <span id="sharesCount_${post.id}">${post.shares}</span></span>
+                        <span>${formatDate(post.time)}</span>
+                    </div>
+                    <div class="post-comments">
+                        ${post.comments.map(comment => `
+                            <div class="comment">
+                                <span class="user">${comment.username}</span>
+                                <span class="text">${comment.text}</span>
+                            </div>
+                        `).join('')}
+                        <textarea placeholder="Add a comment..."></textarea>
+                    </div>
+                    <button onclick="deletePost(${post.id})">Delete</button>
+					<script>
+                `;
+                postsContainer.appendChild(postElem);
+            });
+        }
+
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function openPostDialog() {
+            document.getElementById('postDialog').style.display = 'block';
+        }
+
+        function closePostDialog() {
+            document.getElementById('postDialog').style.display = 'none';
+        }
+
+        function submitPost() {
+            const postText = document.getElementById('postText').value;
+            const postImage = document.getElementById('postImage').files[0];
+            
+            if (!postText && !postImage) {
+                alert('Please write something or select an image/video to post.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const posts = JSON.parse(localStorage.getItem('userPosts')) || [];
+                const newPost = {
+                    id: Date.now(),
+                    description: postText,
+                    image: e.target.result,
+                    likes: 0,
+                    shares: 0,
+                    time: new Date(),
+                    comments: []
+                };
+                posts.push(newPost);
+                localStorage.setItem('userPosts', JSON.stringify(posts));
+                closePostDialog();
+                loadPosts();
+            };
+            
+            if (postImage) {
+                reader.readAsDataURL(postImage);
+            } else {
+                reader.onload();
+            }
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        }
+
+        function likePost(postId) {
+            const posts = JSON.parse(localStorage.getItem('userPosts'));
+            const post = posts.find(p => p.id === postId);
+            post.likes += 1;
+            localStorage.setItem('userPosts', JSON.stringify(posts));
+            document.getElementById(`likesCount_${postId}`).textContent = post.likes;
+        }
+
+        function dislikePost(postId) {
+            const posts = JSON.parse(localStorage.getItem('userPosts'));
+            const post = posts.find(p => p.id === postId);
+            post.likes = Math.max(0, post.likes - 1);
+            localStorage.setItem('userPosts', JSON.stringify(posts));
+            document.getElementById(`likesCount_${postId}`).textContent = post.likes;
+        }
+
+        function sharePost(postId) {
+            const posts = JSON.parse(localStorage.getItem('userPosts'));
+            const post = posts.find(p => p.id === postId);
+            post.shares += 1;
+            localStorage.setItem('userPosts', JSON.stringify(posts));
+            document.getElementById(`sharesCount_${postId}`).textContent = post.shares;
+        }
+
+        function reportPost(postId) {
+            alert('Post reported.');
+        }
+
+        function deletePost(postId) {
+            const posts = JSON.parse(localStorage.getItem('userPosts'));
+            const updatedPosts = posts.filter(p => p.id !== postId);
+            localStorage.setItem('userPosts', JSON.stringify(updatedPosts));
+            loadPosts();
+        }
+
+        function updateProfilePicture(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('.profile-icon img').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+         // Function to toggle theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+        
+            document.querySelector('.header').classList.toggle('dark-mode');
+            document.querySelector('.profile-container').classList.toggle('dark-mode');
+        }
+
+        function showExercises() {
+            alert('Displaying exercises.');
+        }
+
+        function showScreenManagement() {
+            alert('Displaying screen management options.');
+        }
+    </script>
+</body>
+</html>
+

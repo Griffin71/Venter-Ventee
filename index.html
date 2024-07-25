@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venter Ventee Opening</title>
+    <link rel="icon" href="C:\Users\jndimande\OneDrive - Rietondale High School\Desktop\HTML\icon.ico" type="icon.ico">
+    <style>
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: "Times New Roman", serif;
+            background-color: #1e90ff; /* Glossy blue */
+            background-image: linear-gradient(45deg, #1e90ff, #87cefa);
+            color: black;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            margin: 20px 0;
+            font-size: 2.5em;
+            color: #333;
+        }
+        h3 {
+            margin: 20px 0;
+            font-size: 1.5em;
+            color: #555;
+        }
+        p {
+            font-size: 1.2em;
+            color: #666;
+            max-width: 800px;
+        }
+        img {
+            width: 50%;
+            height: auto;
+            margin: 20px 0;
+        }
+        .terms {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .terms label {
+            margin-left: 10px;
+        }
+        .button {
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+            margin: 20px 0;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .button a {
+            color: white;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #c70039;
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            position: fixed;
+            bottom: 10px;
+        }
+        .navigation-buttons button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+        }
+        .navigation-buttons button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><b>Welcome to Ventor Ventee</b></h1>
+        <img src="vv.png" alt="Ventor Ventee">
+        <p>Existence is pain.<br>
+           We know, but with <b>Ventor Ventee</b> and our team, S.T.S: <i><b>SwiftTech Solutions</b></i>, we are determined to work with you to help make living a little less painful.</p>
+        <h3>Your virtual friends await!</h3>
+        <div class="terms">
+            <input type="checkbox" id="terms" onclick="toggleButton()">
+            <label for="terms">By ticking the box, you agree with our <a href="T's.html">terms and conditions</a>.</label>
+        </div>
+        <button class="button" id="continueButton"><a href="LorS.html">Continue---></a></button>
+    </div>
+    <div class="navigation-buttons">
+        <button onclick="scrollToTop()">Back to Top</button>
+        <button onclick="scrollToBottom()">Scroll to Bottom</button>
+    </div>
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToBottom() {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }
+
+        function toggleButton() {
+            const checkbox = document.getElementById('terms');
+            const button = document.getElementById('continueButton');
+            if (checkbox.checked) {
+                button.style.pointerEvents = 'auto';
+                button.style.opacity = '1';
+            } else {
+                button.style.pointerEvents = 'none';
+                button.style.opacity = '0.5';
+            }
+        }
+    </script>
+</body>
+</html>

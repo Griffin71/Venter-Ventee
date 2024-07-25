@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="icon" href="icon.ico" type="icon.ico">
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: black;
+        }
+        .left {
+            background-color: red;
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .right {
+            background-color: aqua;
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            overflow: auto;
+        }
+        .content {
+            width: 80%;
+            max-width: 400px;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        button a {
+            color: white;
+            text-decoration: none;
+        }
+        button:hover {
+            background-color: grey;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+        .ball {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            animation: pop 5s forwards;
+        }
+        @keyframes pop {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        #scrollToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        #forgotPasswordModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        #forgotPasswordModal h2 {
+            margin: 0 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="left">
+        <div class="content">
+            <h1>Welcome</h1>
+            <img src="vv.png" alt="Welcome Image">
+            <input type="text" id="username" placeholder="Username" name="Username" required>
+            <input type="password" id="password" placeholder="Password" name="Password" required>
+            <label><input type="checkbox"> Remember me on this device</label>
+            <button onclick="signIn()">Login</button>
+            <button><a href="Sign up.html">Don't have an account?</a></button>
+            <button onclick="openForgotPasswordModal()">Forgot Password</button>
+        </div>
+    </div>
+    <div class="right" id="venteeInfo">
+        <div class="content">
+            <h2>What is Ventee Ventee?</h2>
+            <p>Ventee Ventee is a service that provides users with anonymity and a chance to vent with each other through texting. Users can decide if they want to vent or be the one to whom others vent, all while earning money. You can earn rewards and badges that showcase how good of a listener you are and how well you can give advice. For safety, adults talk to adults and teenagers to teenagers. Sensitive information is required for extra safety measures.</p>
+            <p>At SwiftTech Solutions, we prioritize your mental health. The app allows you to go live solo or with other strangers, and we monitor lives for potential threats. Any suspicious activity will lead to a ban. Users can also report suspicious behavior.</p>
+            <p>You could be talking to a celebrity and you wouldn't know it. Head over to the left side of the screen, now!</p>
+            <button id="scrollButton">Back to Top</button>
+            <button id="popBallButton">Pop Ball</button>
+        </div>
+    </div>
+    <div id="forgotPasswordModal">
+        <h2>Forgot Password</h2>
+        <input type="email" id="resetEmail" placeholder="Enter your email" required>
+        <button id="resetPasswordButton">Reset Password</button>
+        <button onclick="closeForgotPasswordModal()">Close</button>
+    </div>
+    <script>
+        function signIn() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            fetch('http://localhost:3001/signin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    localStorage.setItem('user', JSON.stringify({ username: data.username }));
+                    window.location.href = 'feed.html';
+                } else {
+                    alert('Invalid username or password.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function openForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').style.display = 'block';
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').style.display = 'none';
+        }
+
+        document.getElementById('resetPasswordButton').addEventListener('click', function() {
+            const email = document.getElementById('resetEmail').value;
+
+            fetch('http://localhost:3001/forgot-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                closeForgotPasswordModal();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('scrollButton').onclick = function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        document.getElementById('popBallButton').onclick = function() {
+            const ball = document.createElement('div');
+            ball.className = 'ball';
+            ball.style.top = Math.random() * window.innerHeight + 'px';
+            ball.style.left = Math.random() * window.innerWidth + 'px';
+            ball.innerText = String.fromCharCode(65 + Math.floor(Math.random() * 26)) + Math.floor(Math.random() * 10);
+            document.body.appendChild(ball);
+            setTimeout(() => ball.remove(), 5000);
+        };
+    </script>
+</body>
+</html>
