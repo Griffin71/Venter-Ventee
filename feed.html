@@ -4,260 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venter Ventee Feed</title>
-    <link rel="icon" href="icon.ico" type="image/x-icon">
-    <style>
-        /* Add your CSS styles here */
-        body, html {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: "Times New Roman", serif;
-            background-color: #f0f0f0;
-            color: black;
-        }
-        header {
-            background-color: #ffffff;
-            padding: 10px;
-            text-align: left;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 1000;
-        }
-        header img {
-            max-height: 40px;
-        }
-        .header-buttons {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .header-buttons button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            border-radius: 5px;
-        }
-        .header-buttons button:hover {
-            background-color: #0056b3;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: calc(100vh - 60px);
-            text-align: center;
-            padding: 80px 20px 20px 20px;
-        }
-        .feed {
-            background-color: white;
-            padding: 20px;
-            width: 100%;
-            max-width: 800px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-        .post {
-            background-color: white;
-            padding: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-        .actions button {
-            margin-right: 5px;
-        }
-        .create-options {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .create-options button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            border-radius: 5px;
-        }
-        .create-options button:hover {
-            background-color: #218838;
-        }
-        .settings-bar {
-            position: fixed;
-            right: 0;
-            top: 60px;
-            width: 250px;
-            height: calc(100vh - 60px);
-            background-color: #333;
-            color: white;
-            display: none;
-            flex-direction: column;
-            padding: 20px;
-            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-            z-index: 999;
-        }
-        .settings-bar button {
-            background-color: #444;
-            color: white;
-            border: none;
-            padding: 10px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .settings-bar button:hover {
-            background-color: #555;
-        }
-        .settings-bar .icon {
-            max-height: 20px;
-            border-radius: 50%;
-        }
-        /* Dark mode styles */
-        .dark-mode {
-            background-color: #121212;
-            color: white;
-        }
-        .dark-mode header {
-            background-color: #1e1e1e;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        .dark-mode .feed, .dark-mode .post {
-            background-color: #1e1e1e;
-            color: white;
-        }
-        .dark-mode .settings-bar {
-            background-color: #1e1e1e;
-        }
-        /* Slideshow styles */
-        #slideshow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            z-index: 1000;
-        }
-        #slideshow .slide {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 90%;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 15px rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
-        }
-        #slideshow .slide:not(:first-child) {
-            display: none;
-        }
-        #slideshow .nav {
-            position: absolute;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-        }
-        #slideshow .nav button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px;
-            font-size: 1em;
-            cursor: pointer;
-            margin: 0 5px;
-            border-radius: 5px;
-        }
-        #slideshow .nav button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="icon" href="2_rNI_icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="feed.css">
 </head>
 <body>
-    <header>
-        <a href="feed.html"><img src="icon.ico" alt="Home"></a>
-        <p>A safe space to vent!</p>
-        <div class="header-buttons">
-            <button onclick="showCreateOptions()">+</button>
-            <div class="create-options" id="createOptions">
-                <button onclick="createPost('text')">Create a new post</button>
-                <button onclick="createPost('text')">Write a new post</button>
-                <button onclick="createPost('photo')">Upload photos</button>
-                <button onclick="createPost('live')">Go live</button>
-            </div>
-            <input type="text" id="searchUserInput" placeholder="Search users...">
-            <button onclick="searchUser()">Search</button>
-            <button onclick="location.href='Messages.html'">Messages</button>
-            <button onclick="location.href='Videos.html'">Videos/Reels</button>
-            <button onclick="location.href='Notifications.html'">Notifications</button>
-            <button onclick="location.href='Profile.html'"><img src="icon.ico" alt="Profile" style="max-height: 12px; border-radius: 15%;"></button>
-            <button class="toggle-settings" onclick="toggleSettingsBar()">Settings</button>
-        </div>
-    </header>
-    
-    <!-- Slideshow for new users -->
-   <!-- <div id="slideshow">
-        <div class="slide">
-            <h1>Welcome <span id="userName">[User]</span>!</h1>
-            <p>Thanks for trusting Venter Ventee to help you in your day-to-day lives.</p>
-            <div class="nav">
-			<br>
-                <button onclick="nextSlide()">Next</button><br>
-				<br>
-            </div>
-        </div>
-        <div class="slide">
-            <h1>Your Secret Diary</h1>
-            <p>You can write daily in your own secret diary. Give it a name and start sharing your thoughts!</p>
-            <div class="nav">
-                <button onclick="nextSlide()">Next</button>
-            </div>
-        </div>
-        <div class="slide">
-            <h1>A Safe Space</h1>
-            <p>Venter Ventee is a safe space to vent and listen to others vent. Enjoy this supportive community!</p>
-            <div class="nav">
-                <button onclick="nextSlide()">Next</button>
-            </div>
-        </div>-->
-        <div class="slide">
-            <h1>Enjoy & Recommend</h1>
-            <p>Enjoy the site and recommend it to your friends. We appreciate your support!</p>
-            <div class="nav">
-                <button onclick="finishSlideshow()">Finish</button>
-            </div>
-        </div>
-    </div>
+				   <header>
+			<a href="feed.html"><img src="2.png" alt="Home" class="header-icon"></a>
+			<p class="header-text">Your Digital Escape</p>
+			<div class="header-buttons">
+				<button onclick="showCreateOptions()">+</button>
+				<div class="create-options" id="createOptions">
+					<button onclick="createPost('text')">Create a new post</button>
+					<button onclick="createPost('photo')">Upload photos</button>
+					<button onclick="createPost('live')">Go live</button>
+				</div>
+				<span onclick="toggleSearchBar()">🔍</span> <!-- Search emoji -->
+				<span onclick="location.href='Messages.html'">📩</span> <!-- Messages emoji -->
+				<span onclick="location.href='Videos.html'">📺</span> <!-- Videos emoji -->
+				<span onclick="location.href='Notifications.html'">🔔</span> <!-- Notifications emoji -->
+				<span onclick="location.href='Profile.html'"><img src="default_profile.png" alt="Profile" class="header-profile-icon"></span>
+				<span class="toggle-settings" onclick="toggleSettingsBar()">⚙️</span> <!-- Settings emoji -->
+			</div>
+			<div class="search-bar-container" id="searchBarContainer">
+				<input type="text" id="searchInput" placeholder="Search users..." oninput="searchUser()">
+				<div id="searchResults"></div>
+			</div>
+		</header>
+
+
+
 
     <!-- Feed Section -->
     <div class="container">
         <div class="feed">
             <div class="post">
-                <p><strong>User1</strong> <img src="icon.ico" alt="User1" style="max-height: 12px; border-radius: 50%;"> <span class="time-posted">Just now</span></p>
+                <div class="post-header">
+                    <img src="default_profile.png" alt="User Profile" class="post-profile-pic">
+                    <p><strong>User1</strong> <span class="time-posted">Just now</span></p>
+                </div>
                 <p>This is a sample post content.</p>
                 <div class="actions">
                     <button onclick="heartbreakPost(this)">Heartbreak <span class="heartbreak-count">0</span></button>
@@ -283,86 +67,12 @@
         <button onclick="location.href='hotline.html'">Hotline</button>
         <button onclick="location.href='settings.html'">Settings</button>
         <button><img src="earth-icon.ico" alt="Watch Lives" class="icon"> Watch Lives</button>
-        <button><img src="icon.ico" alt="Venter Mode" class="icon"> Venter Mode</button>
-        <button><img src="icon.ico" alt="Ventee Mode" class="icon"> Ventee Mode</button>
+        <button><img src="2.png" alt="Venter Mode" class="icon"> Venter Mode</button>
+        <button><img src="2.png" alt="Ventee Mode" class="icon"> Ventee Mode</button>
     </div>
 
     <!-- Scripts -->
-    <script>
-        // Function to toggle settings bar visibility
-        function toggleSettingsBar() {
-            var settingsBar = document.getElementById('settingsBar');
-            if (settingsBar.style.display === 'none' || settingsBar.style.display === '') {
-                settingsBar.style.display = 'flex';
-            } else {
-                settingsBar.style.display = 'none';
-            }
-        }
-
-        // Slideshow functionality
-        var currentSlide = 0;
-        var slides = document.querySelectorAll('#slideshow .slide');
-
-        function nextSlide() {
-            slides[currentSlide].style.display = 'none';
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].style.display = 'block';
-        }
-
-        function finishSlideshow() {
-            document.getElementById('slideshow').style.display = 'none';
-        }
-
-        // Function to toggle theme
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-        }
-
-        // Function stubs for other actions
-        function showCreateOptions() {
-            var options = document.getElementById('createOptions');
-            options.style.display = options.style.display === 'none' ? 'flex' : 'none';
-        }
-
-        function createPost(type) {
-            alert('Create a ' + type + ' post');
-        }
-
-        function showComments(button) {
-            alert('Show comments for this post');
-        }
-
-        function heartbreakPost(button) {
-            var countSpan = button.querySelector('.heartbreak-count');
-            var count = parseInt(countSpan.textContent);
-            countSpan.textContent = count + 1;
-        }
-
-        function sharePost(button) {
-            alert('Share this post');
-        }
-
-        function searchUser() {
-            var input = document.getElementById('searchUserInput').value;
-            alert('Search for: ' + input);
-        }
-
-        function showScreenManagement() {
-            alert('Show screen management options');
-        }
-
-        function showExercises() {
-            alert('Show exercises');
-        }
-
-        function setScreenTimeLimit() {
-            alert('Set daily screen time limit');
-        }
-
-        function togglePositiveContent() {
-            var button = document.getElementById('togglePositiveContentBtn');
-            button.textContent = button.textContent.includes('Enable') ? 'Disable Positive Content' : 'Enable Positive Content';
-        }
-    </script>
+    <script src="feed.js"></script>
 </body>
 </html>
+
