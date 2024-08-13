@@ -2,162 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=320, initial-scale=1">
-    <title>Sign up</title>
-    <link rel="icon" href="icon.ico" type="image/x-icon">
-    <style>
-        body, html {
-            min-width: 100%;
-            min-height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: "Times New Roman", serif;
-            background-color: aqua;
-            color: black;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-        }
-        h1 {
-            margin-top: 20px;
-        }
-        .signup-form {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-        input, select, button {
-            width: calc(100% - 20px);
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: black;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button a {
-            color: white;
-            text-decoration: none;
-        }
-        button:hover {
-            background-color: grey;
-        }
-        .disclaimer {
-            font-size: 12px;
-            margin-top: 10px;
-            color: red;
-        }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 20px;
-        }
-        .header img {
-            height: 40px;
-        }
-        .header button {
-            padding: 5px 10px;
-        }
-        .password-container {
-            position: relative;
-        }
-        .password-container input {
-            width: calc(100% - 40px);
-            display: inline-block;
-        }
-        .password-toggle {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="icon" href="2_rNI_icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="sign up.css">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <img src="icon.ico" alt="Logo">
-            <button><a href="index.html">Home</a></button>
-        </div>
-        <h1>Sign up</h1>
-        <div class="signup-form">
-            <input type="text" id="firstName" placeholder="First name" required>
-            <input type="text" id="lastName" placeholder="Last name" required>
-            <input type="text" id="username" placeholder="Username" required>
-            <div class="password-container">
-                <input type="password" id="password" placeholder="Password" required>
-               <br> <span class="password-toggle" onclick="togglePassword('password')">Show</span>
+        <header class="header">
+            <img src="2.png" alt="Logo" class="logo">
+            <a href="LorS.html" class="home-button">I have an account</a>
+        </header>
+        <main>
+            <h1>Sign Up</h1>
+            <div class="signup-form">
+                <input type="text" id="firstName" placeholder="First Name" required>
+                <input type="text" id="lastName" placeholder="Last Name" required>
+                <input type="text" id="username" placeholder="Username" required>
+				<input type="text" id="Gmail" placeholder="Email Adress" required>
+                <div class="password-container">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <span class="password-toggle" onclick="togglePassword('password')">
+                        <img src="eye-icon.png" alt="Show/Hide" class="eye-icon" id="eye-password">
+                    </span>
+                </div>
+                <div class="password-container">
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                    <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                        <img src="eye-icon.png" alt="Show/Hide" class="eye-icon" id="eye-confirmPassword">
+                    </span>
+                </div>
+                <button onclick="signUp()">Sign Up</button>
             </div>
-            <div class="password-container">
-                <input type="password" id="confirmPassword" placeholder="Confirm Password" required><br>
-               <br> <span class="password-toggle" onclick="togglePassword('confirmPassword')">Show</span>
+            <div class="disclaimer">
+                <p>By signing up, you agree to our <a href="T's.html">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
             </div>
-            <button onclick="signUp()">Sign Up</button>
-        </div>
-        <div class="disclaimer">
-            <p>By signing up, you agree to our Terms of Service and Privacy Policy.</p>
-        </div>
+        </main>
+        <footer class="footer">
+            <p>&copy; Venter Ventee 2024. All rights reserved from Line Tech &copy;.</p>
+        </footer>
     </div>
-    <script>
-        function togglePassword(id) {
-            var input = document.getElementById(id);
-            var toggle = input.nextElementSibling;
-            if (input.type === "password") {
-                input.type = "text";
-                toggle.textContent = "Hide";
-            } else {
-                input.type = "password";
-                toggle.textContent = "Show";
-            }
-        }
-
-        function signUp() {
-            var firstName = document.getElementById('firstName').value;
-            var lastName = document.getElementById('lastName').value;
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            var confirmPassword = document.getElementById('confirmPassword').value;
-
-            if (password !== confirmPassword) {
-                alert('Passwords do not match.');
-                return;
-            }
-
-            fetch('http://localhost:3001/signup', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ firstName, lastName, username, password })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    localStorage.setItem('user', JSON.stringify({ username: data.username }));
-                    window.location.href = 'feed.html';
-                } else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    </script>
+    <script src="sign up.js"></script>
 </body>
 </html>
+
+
