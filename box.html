@@ -4,95 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venter Ventee Review</title>
-<link rel="icon" href="icon.ico" type="image/x-icon">
-    <style>
-        body, html {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: "Times New Roman", serif;
-            background-color: #f0f0f0;
-            color: black;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        header {
-            background-color: #007BFF;
-            color: white;
-            padding: 10px;
-            width: 100%;
-            text-align: center;
-        }
-        .container {
-            background-color: white;
-            padding: 20px;
-            width: 100%;
-            max-width: 1000px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-group input[type="submit"] {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .form-group input[type="submit"]:hover {
-            background-color: #218838;
-        }
-        .reviews {
-            margin-top: 20px;
-            width: 100%;
-            max-width: 1000px;
-        }
-        .review {
-            background-color: #fff;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .review p {
-            margin: 5px 0;
-        }
-        .review .date {
-            font-size: 0.9em;
-            color: gray;
-        }
-        .reply {
-            margin-top: 10px;
-            padding-left: 20px;
-            border-left: 3px solid #007BFF;
-        }
-        .reply .verified {
-            color: #007BFF;
-        }
-    </style>
+    <link rel="icon" href="2_rNI_icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="box.css">
 </head>
 <body>
     <header>
-        <img src="icon.ico" alt="Home">
+        <img src="2_rNI_icon.ico" alt="Home">
         <h1>Venter Ventee Review</h1>
     </header>
     <div class="container">
         <form id="reviewForm">
             <div class="form-group">
+                <p>Please tell us what you think. Thank you.</p>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
             </div>
@@ -117,67 +40,6 @@
         <button onclick="location.href='feed.html'">Back to Feed</button>
     </div>
     <div class="reviews" id="reviews"></div>
-
-    <script>
-        document.getElementById('reviewForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            var name = document.getElementById('name').value;
-            var review = document.getElementById('review').value;
-            var rating = document.querySelector('input[name="star"]:checked').value;
-            var date = new Date().toLocaleDateString();
-
-            var reviewData = {
-                name: name,
-                review: review,
-                rating: rating,
-                date: date
-            };
-
-            // Save the review data to LocalStorage
-            var reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-            reviews.push(reviewData);
-            localStorage.setItem('reviews', JSON.stringify(reviews));
-
-            displayReviews();
-            document.getElementById('reviewForm').reset();
-        });
-
-        function displayReviews() {
-            var reviews = JSON.parse(localStorage.getItem('reviews')) || [];
-            var reviewsContainer = document.getElementById('reviews');
-            reviewsContainer.innerHTML = '';
-
-            reviews.forEach(function(review) {
-                var reviewHTML = `
-                    <div class="review">
-                        <p><strong>Name:</strong> ${review.name}</p>
-                        <p><strong>Review:</strong> ${review.review}</p>
-                        <p><strong>Rating:</strong> ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</p>
-                        <p class="date"><strong>Date:</strong> ${review.date}</p>
-                        <div class="reply" id="reply-${review.date}">
-                            <!-- Developer replies will go here -->
-                        </div>
-                    </div>
-                `;
-                reviewsContainer.innerHTML += reviewHTML;
-            });
-        }
-
-        // Function to add a reply from the developer
-        function addReply(reviewDate, replyText) {
-            var replyContainer = document.getElementById(`reply-${reviewDate}`);
-            var replyHTML = `
-                <p><strong>venter-ventee dev <span class="verified">✔️</span>:</strong> ${replyText}</p>
-            `;
-            replyContainer.innerHTML += replyHTML;
-        }
-
-        // Example of adding a developer reply (this would be replaced with real logic)
-        // addReply('06/24/2024', 'Thank you for your feedback!');
-
-        // Display the reviews on page load
-        displayReviews();
-    </script>
+    <script src="box.js"></script>
 </body>
 </html>
