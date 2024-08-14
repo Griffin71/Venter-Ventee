@@ -4,83 +4,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Page</title>
+    <link rel="stylesheet" href="profile.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #fafafa;
+        }
+        header {
+            background-color: #ffffff;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        header img {
+            max-height: 40px;
+        }
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .header-buttons button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+        }
+        .header-buttons button:hover {
+            background-color: #0056b3;
         }
         .profile-container {
-            text-align: center;
+            max-width: 900px;
+            margin: 70px auto 0;
+            display: flex;
+            flex-direction: column;
             padding: 20px;
-            background: #f4f4f4;
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
         }
-        .profile-picture {
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .profile-header img.profile-picture {
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #ddd;
+            border: 3px solid #ddd;
+            margin-right: 20px;
         }
-        .post {
-            border: 1px solid #ddd;
-            margin: 10px auto;
-            padding: 10px;
-            max-width: 600px;
-            background: #fff;
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .profile-info h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .profile-info h2 {
+            font-size: 18px;
+            margin: 5px 0;
+            color: #555;
+        }
+        .bio-container {
+            margin-bottom: 20px;
+        }
+        .bio-container p {
+            font-size: 16px;
+            margin: 0;
+        }
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .posts-grid img {
+            width: 100%;
             border-radius: 8px;
         }
-        .post-actions {
-            margin-top: 10px;
-        }
-        .post-comments {
-            margin-top: 10px;
-        }
-        .comment {
-            margin-bottom: 5px;
-        }
-        textarea, input[type="file"], button {
-            margin-top: 10px;
-        }
-        .dark-mode {
-            background-color: #333;
-            color: #fff;
-        }
-        #postDialog, #settingsModal {
-            display: none;
+        .modal-content {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            display: none;
             justify-content: center;
             align-items: center;
-        }
-        .modal-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .modal-content button {
-            margin-top: 10px;
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        .modal-content button:hover {
+            background-color: #0056b3;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
         }
     </style>
 </head>
 <body>
+    <header>
+        <a href="feed.html"><img src="icon.ico" alt="Home"></a>
+        <p>A safe space to vent!</p>
+        <div class="header-buttons">
+            <input type="text" id="searchUserInput" placeholder="Search users...">
+            <button onclick="searchUser()">Search</button>
+            <button onclick="location.href='Messages.html'">Messages</button>
+            <button onclick="location.href='Videos.html'">Videos/Reels</button>
+            <button onclick="location.href='Notifications.html'">Notifications</button>
+            <button class="toggle-settings" onclick="toggleSettingsBar()">Settings</button>
+        </div>
+    </header>
+    
     <div class="profile-container">
-        <img id="profilePicture" class="profile-picture" src="default_profile.png" alt="Profile Picture">
-        <br>
-        <input type="file" id="profilePictureInput" onchange="uploadProfilePicture()">
-        <button onclick="removeProfilePicture()">Remove Profile Picture</button>
-        <br>
-        <textarea id="bioInput" placeholder="Enter your bio..."></textarea>
-        <button onclick="updateBio()">Update Bio</button>
-        <p id="bio">No bio available</p>
-    </div>
+        <div class="profile-header">
+            <img id="profilePicture" class="profile-picture" src="default_profile.png" alt="Profile Picture" onclick="toggleProfilePictureOptions()">
+            <div class="profile-info">
+                <h1 id="usernameDisplay">Username</h1>
+                <h2 id="realNameDisplay">Real Name</h2>
+                <div class="bio-container">
+                    <p id="bio">No bio available</p>
+                </div>
+                <div class="follower-following">
+                    <p>Venters (Followers): <span id="ventersCount">0</span></p>
+                    <p>Ventees (Following): <span id="venteesCount">0</span></p>
+                </div>
+            </div>
+        </div>
 
-    <div id="postsContainer"></div>
+        <div id="postsContainer" class="posts-grid"></div>
+    </div>
 
     <div id="postDialog" class="modal-content">
         <textarea id="postText" placeholder="What's on your mind?"></textarea>
@@ -97,182 +179,15 @@
         <button onclick="showScreenManagement()">Screen Management</button>
     </div>
 
-    <script>
-        // Load profile picture and bio from localStorage
-        window.onload = function() {
-            const profilePicture = localStorage.getItem('profilePicture');
-            const bio = localStorage.getItem('bio');
-            
-            if (profilePicture) {
-                document.getElementById('profilePicture').src = profilePicture;
-            }
-            
-            if (bio) {
-                document.getElementById('bio').innerText = bio;
-            }
+    <div id="profilePictureOptions" class="modal-content">
+        <button onclick="openProfilePictureInput()">Change Profile Picture</button>
+        <button id="viewProfilePictureBtn" style="display: none;" onclick="viewProfilePicture()">View Profile Picture</button>
+        <button id="removeProfilePictureBtn" style="display: none;" onclick="removeProfilePicture()">Remove Profile Picture</button>
+        <button onclick="closeProfilePictureOptions()">Close</button>
+    </div>
 
-            // Load posts
-            loadPosts();
-        };
-
-        // Upload profile picture
-        function uploadProfilePicture() {
-            const fileInput = document.getElementById('profilePictureInput');
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const profilePictureUrl = event.target.result;
-                    document.getElementById('profilePicture').src = profilePictureUrl;
-                    localStorage.setItem('profilePicture', profilePictureUrl);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Remove profile picture
-        function removeProfilePicture() {
-            localStorage.removeItem('profilePicture');
-            document.getElementById('profilePicture').src = 'default-profile-picture.png';
-        }
-
-        // Update bio
-        function updateBio() {
-            const bioInput = document.getElementById('bioInput').value.trim();
-            if (bioInput) {
-                localStorage.setItem('bio', bioInput);
-                document.getElementById('bio').innerText = bioInput;
-                document.getElementById('bioInput').value = '';
-            }
-        }
-
-        // Load posts from localStorage
-        function loadPosts() {
-            const postsContainer = document.getElementById('postsContainer');
-            const posts = JSON.parse(localStorage.getItem('userPosts')) || [];
-            
-            postsContainer.innerHTML = '';
-            
-            posts.forEach(post => {
-                const postElem = document.createElement('div');
-                postElem.className = 'post';
-                postElem.innerHTML = `
-                    <p>${post.description}</p>
-                    ${post.image ? `<img src="${post.image}" alt="Post Image" style="max-width: 100%; height: auto;">` : ''}
-                    <div class="post-actions">
-                        <button onclick="likePost(${post.id})">Love</button>
-                        <span>Likes: ${post.likes || 0}</span>
-                    </div>
-                    <div class="post-comments">
-                        ${post.comments ? post.comments.map(comment => `
-                            <div class="comment">
-                                <span class="user">${comment.username}:</span>
-                                <span class="text">${comment.text}</span>
-                            </div>
-                        `).join('') : ''}
-                        <textarea placeholder="Add a comment..." onkeyup="if (event.key === 'Enter') addComment(${post.id}, this)"></textarea>
-                    </div>
-                `;
-                postsContainer.appendChild(postElem);
-            });
-        }
-
-        // Like a post
-        function likePost(postId) {
-            const posts = JSON.parse(localStorage.getItem('userPosts')) || [];
-            const post = posts.find(p => p.id === postId);
-            if (post) {
-                post.likes = (post.likes || 0) + 1;
-                localStorage.setItem('userPosts', JSON.stringify(posts));
-                loadPosts();  // Refresh the posts
-            }
-        }
-
-        // Add a comment to a post
-        function addComment(postId, textarea) {
-            const commentText = textarea.value.trim();
-            if (commentText) {
-                const posts = JSON.parse(localStorage.getItem('userPosts')) || [];
-                const post = posts.find(p => p.id === postId);
-                if (post) {
-                    post.comments = post.comments || [];
-                    post.comments.push({
-                        username: JSON.parse(localStorage.getItem('userInfo')).username,
-                        text: commentText
-                    });
-                    localStorage.setItem('userPosts', JSON.stringify(posts));
-                    textarea.value = '';
-                    loadPosts();  // Refresh the posts
-                }
-            }
-        }
-
-        // Open and close post dialog
-        function openPostDialog() {
-            document.getElementById('postDialog').style.display = 'block';
-        }
-
-        function closePostDialog() {
-            document.getElementById('postDialog').style.display = 'none';
-        }
-
-        // Submit a new post
-        function submitPost() {
-            const postText = document.getElementById('postText').value.trim();
-            const postImage = document.getElementById('postImage').files[0];
-            const reader = new FileReader();
-
-            if (postText || postImage) {
-                reader.onload = function(event) {
-                    const newPost = {
-                        id: Date.now(),
-                        description: postText,
-                        image: event.target.result,
-                        likes: 0,
-                        comments: []
-                    };
-
-                    const posts = JSON.parse(localStorage.getItem('userPosts')) || [];
-                    posts.push(newPost);
-                    localStorage.setItem('userPosts', JSON.stringify(posts));
-                    closePostDialog();
-                    loadPosts();  // Refresh the posts
-                };
-
-                if (postImage) {
-                    reader.readAsDataURL(postImage);
-                } else {
-                    reader.onload({ target: { result: '' } });
-                }
-            } else {
-                alert('Please enter some text or select an image to post.');
-            }
-        }
-
-        // Open and close settings modal
-        function openSettings() {
-            document.getElementById('settingsModal').style.display = 'block';
-        }
-
-        function closeSettings() {
-            document.getElementById('settingsModal').style.display = 'none';
-        }
-
-        // Toggle dark mode
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-        }
-
-        // Placeholder functions for future implementation
-        function showExercises() {
-            alert('Exercises functionality to be implemented.');
-        }
-
-        function showScreenManagement() {
-            alert('Screen management functionality to be implemented.');
-        }
-    </script>
+    <input type="file" id="profilePictureInput" onchange="uploadProfilePicture()" style="display: none;">
+    
+    <script src="profile.js"></script>
 </body>
 </html>
-
