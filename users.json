@@ -2,13 +2,23 @@
   {
     "firstName": "Mmamoroko",
     "lastName": "Kgosana",
+    "Email": "jkndimande@gmail.com",
     "username": "Julia",
     "password": "Kgosana!"
   },
   {
     "firstName": "Kabelo",
     "lastName": "Kgosana",
+      "Email": "kabelosamkelo19@gmail.com",
     "username": "okaygriffy",
     "password": "Kgosana1771!"
+  }, 
+  {
+    "firstName": "Weird",
+    "lastName": "Al",
+    "Email": "al@gmail.com",
+    "username": "Al",
+    "password": "Kgosana1771!"
+    
   }
 ]
