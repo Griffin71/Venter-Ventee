@@ -8,10 +8,24 @@ body, html {
     color: #FFC0CB; /* Light pink */
     display: flex;
     box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Main Container */
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly opaque white */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Left and Right Sections */
 .left, .right {
-    width: 50%;
+    flex: 1;
     padding: 20px;
     display: flex;
     align-items: center;
@@ -21,6 +35,7 @@ body, html {
 
 .left {
     background-color: rgba(255, 105, 180, 0.8); /* Light pink with opacity */
+    border-right: 2px solid #FF69B4; /* Bright pink border */
 }
 
 .right {
@@ -33,17 +48,20 @@ body, html {
     max-width: 400px;
 }
 
+/* Headings */
 h1, h2 {
     margin-bottom: 20px;
     color: #FF69B4; /* Bright pink */
 }
 
+/* Images */
 img {
     max-width: 100%;
     height: auto;
     margin-bottom: 20px;
 }
 
+/* Form Inputs */
 input[type="text"], input[type="password"], input[type="email"] {
     width: 100%;
     padding: 10px;
@@ -55,6 +73,7 @@ input[type="text"], input[type="password"], input[type="email"] {
     color: #FFC0CB; /* Light pink text */
 }
 
+/* Buttons */
 button {
     padding: 10px 20px;
     margin: 10px;
@@ -75,40 +94,31 @@ button:hover {
     background-color: #C71585; /* Deeper pink */
 }
 
+/* Labels */
 label {
     display: block;
     margin: 10px 0;
     color: #FFC0CB; /* Light pink */
 }
 
+/* Ball Animation */
 .ball {
     position: absolute;
-    width: 30px;
-    height: 30px;
+    width: 33px;
+    height: 36px;
     border-radius: 50%;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    animation: pop 5s forwards;
+    font-size: 25px;
+    animation: pop 9s forwards;
 }
 
 @keyframes pop {
     from { opacity: 1; }
     to { opacity: 0; }
-}
-
-#scrollToTop {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
 }
 
 /* Forgot Password Modal */
@@ -132,9 +142,13 @@ label {
 
 /* Media Queries */
 @media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
     .left, .right {
         width: 100%;
-        height: 50vh;
+        height: auto;
+        border-right: none; /* Remove border in smaller screens */
     }
     body {
         flex-direction: column;
