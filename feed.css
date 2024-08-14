@@ -1,17 +1,22 @@
+/* Base Styles */
 body, html {
-    width: 100%;
-    height: 100%;
+    height: 100vh;
     margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: black;
+    font-family: "Times New Roman", serif;
+    background-color: #29021A; /* Dark maroon */
+    background-image: linear-gradient(45deg, #29021A, #4A0D41); /* Gradient with deeper purple */
+    color: #FFC0CB; /* Light pink */
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Header styles */
 header {
     background-color: #ffffff;
     padding: 10px;
-    text-align: left;
     position: fixed;
     top: 0;
     left: 0;
@@ -23,42 +28,119 @@ header {
     z-index: 1000;
 }
 
-.home-icon, .profile-icon, .user-icon {
+.header-icon {
     max-height: 40px;
-    border-radius: 50%;
+}
+
+.header-text {
+    font-style: italic;
+    margin-left: 10px;
 }
 
 .header-buttons {
     display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.header-buttons button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
-}
-
-.header-buttons button:hover {
-    background-color: #0056b3;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
+    gap: 15px;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 60px);
-    text-align: center;
-    padding: 80px 20px 20px 20px;
+    flex-grow: 1;
 }
 
+.header-buttons span {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.header-buttons span:hover {
+    color: #0056b3;
+}
+
+.header-profile-icon {
+    max-height: 30px;
+    border-radius: 50%;
+}
+
+/* Search bar styles */
+.search-bar-container {
+    display: none; /* Initially hidden */
+    position: absolute;
+    top: 50px; /* Adjust as needed */
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 10px;
+    z-index: 1001;
+}
+
+.search-bar-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.search-results {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-result {
+    margin-bottom: 15px;
+}
+
+.search-profile-pic, .search-photo, .search-video {
+    max-width: 100%;
+    height: auto;
+}
+
+.search-photo {
+    border: 2px solid #FF69B4; /* Bright pink border for photos */
+}
+
+.search-video {
+    width: 100%;
+    border: 2px solid #FF69B4; /* Bright pink border for videos */
+}
+
+.search-username {
+    font-weight: bold;
+}
+
+.verified-badge {
+    color: #00F; /* Color for verified badge */
+}
+
+.search-results div:hover {
+    background-color: #f5f5f5;
+}
+
+/* Result for no user found */
+.no-user {
+    color: red;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly opaque white */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+    padding: 20px;
+    margin-top: 60px; /* Adjusted for fixed header */
+}
+
+/* Feed Section */
 .feed {
     background-color: white;
     padding: 20px;
@@ -77,10 +159,24 @@ header {
     border-radius: 10px;
 }
 
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.post-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
 .actions button {
     margin-right: 5px;
 }
 
+/* Create options */
 .create-options {
     display: none;
     flex-direction: column;
@@ -103,6 +199,7 @@ header {
     background-color: #218838;
 }
 
+/* Settings Bar */
 .settings-bar {
     position: fixed;
     right: 0;
@@ -160,3 +257,25 @@ header {
 .dark-mode .settings-bar {
     background-color: #1e1e1e;
 }
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .feed {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .post-profile-pic {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
