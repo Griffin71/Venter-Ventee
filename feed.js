@@ -1,74 +1,157 @@
-  // Function to toggle settings bar visibility
-        function toggleSettingsBar() {
-            var settingsBar = document.getElementById('settingsBar');
-            if (settingsBar.style.display === 'none' || settingsBar.style.display === '') {
-                settingsBar.style.display = 'flex';
-            } else {
-                settingsBar.style.display = 'none';
-            }
+// Function to toggle the search bar visibility
+function toggleSearchBar() {
+    const searchBarContainer = document.getElementById('searchBarContainer');
+    searchBarContainer.style.display = searchBarContainer.style.display === 'none' ? 'block' : 'none';
+}
+// Example implementation of toggleSettingsBar function
+function toggleSettingsBar() {
+    const settingsBar = document.getElementById('settingsBar');
+    settingsBar.style.display = settingsBar.style.display === 'none' ? 'block' : 'none';
+}
+
+// Example implementation of toggleTheme function
+function toggleTheme() {
+    document.body.classList.toggle('dark-mode');
+}
+
+// You need to implement the other functions similarly
+// Function to create a new post
+function createPost(type) {
+    // Implementation for creating a post based on type (text, photo, live)
+}
+
+// Function to show create options
+function showCreateOptions() {
+    const createOptions = document.getElementById('createOptions');
+    createOptions.style.display = createOptions.style.display === 'none' ? 'block' : 'none';
+}
+
+// Function to heart-break a post
+function heartbreakPost(button) {
+    // Implementation for heart-breaking a post
+}
+
+// Function to show comments
+function showComments(button) {
+    // Implementation for showing comments
+}
+
+// Function to share a post
+function sharePost(button) {
+    // Implementation for sharing a post
+}
+
+// Function to toggle positive content
+function togglePositiveContent() {
+    // Implementation for toggling positive content
+}
+
+
+// Function to handle search and display results
+async function search(query, type) {
+    const resultsContainer = document.getElementById('searchResults');
+    
+    if (query.length === 0) {
+        resultsContainer.innerHTML = '';
+        return;
+    }
+    
+    try {
+        // Make API request to search based on type
+        const response = await fetch(`/api/search?query=${encodeURIComponent(query)}&type=${type}`);
+        const data = await response.json();
+        
+        if (data.length === 0) {
+            resultsContainer.innerHTML = 'No results found.';
+        } else {
+            resultsContainer.innerHTML = data.map(item => {
+                switch (type) {
+                    case 'people':
+                        return `
+                            <div class="search-result">
+                                <img src="${item.profilePicture || 'default_profile.png'}" alt="${item.username}" class="search-profile-pic">
+                                <span class="search-username">${item.username}</span>
+                                ${item.verified ? '<span class="verified-badge">✔️</span>' : ''}
+                            </div>
+                        `;
+                    case 'photos':
+                        return `
+                            <div class="search-result">
+                                <img src="${item.photoUrl}" alt="Photo" class="search-photo">
+                            </div>
+                        `;
+                    case 'videos':
+                        return `
+                            <div class="search-result">
+                                <video controls class="search-video">
+                                    <source src="${item.videoUrl}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        `;
+                    case 'posts':
+                        return `
+                            <div class="search-result">
+                                <p><strong>${item.username}</strong>: ${item.content}</p>
+                            </div>
+                        `;
+                    default:
+                        return '';
+                }
+            }).join('');
         }
+    } catch (error) {
+        console.error('Error fetching search data:', error);
+        resultsContainer.innerHTML = 'An error occurred. Please try again later.';
+    }
+}
 
-        // Slideshow functionality
-        var currentSlide = 0;
-        var slides = document.querySelectorAll('#slideshow .slide');
+// Event handler for search input
+document.getElementById('searchInput').addEventListener('input', (event) => {
+    const query = event.target.value;
+    const type = document.querySelector('input[name="searchType"]:checked').value; // Assuming radio buttons for type
+    search(query, type);
+});
 
-        function nextSlide() {
-            slides[currentSlide].style.display = 'none';
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].style.display = 'block';
-        }
+// Function to load user data
+async function loadUserData() {
+    const user = JSON.parse(localStorage.getItem('user'));
 
-        function finishSlideshow() {
-            document.getElementById('slideshow').style.display = 'none';
-        }
+    if (!user) {
+        window.location.href = 'sign-in.html'; // Redirect if not logged in
+        return;
+    }
 
-        // Function to toggle theme
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-        }
+    // Display user information
+    document.getElementById('userProfilePic').src = user.profilePicture || 'default_profile.png';
+    document.getElementById('username').textContent = user.username;
 
-        // Function stubs for other actions
-        function showCreateOptions() {
-            var options = document.getElementById('createOptions');
-            options.style.display = options.style.display === 'none' ? 'flex' : 'none';
-        }
+    // Fetch and display user's posts
+    try {
+        const response = await fetch(`/api/posts?userId=${user.id}`);
+        const posts = await response.json();
+        
+        const feedContainer = document.querySelector('.feed');
+        feedContainer.innerHTML = posts.map(post => `
+            <div class="post">
+                <div class="post-header">
+                    <img src="${user.profilePicture || 'default_profile.png'}" alt="User Profile" class="post-profile-pic">
+                    <p><strong>${user.username}</strong> <span class="time-posted">${post.timePosted}</span></p>
+                </div>
+                <p>${post.content}</p>
+                <div class="actions">
+                    <button onclick="heartbreakPost(this)">Heartbreak <span class="heartbreak-count">${post.heartbreakCount}</span></button>
+                    <button onclick="showComments(this)">Comments</button>
+                    <button onclick="sharePost(this)">Share</button>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+    }
+}
 
-        function createPost(type) {
-            alert('Create a ' + type + ' post');
-        }
+// Call loadUserData on page load
+document.addEventListener('DOMContentLoaded', loadUserData);
 
-        function showComments(button) {
-            alert('Show comments for this post');
-        }
-
-        function heartbreakPost(button) {
-            var countSpan = button.querySelector('.heartbreak-count');
-            var count = parseInt(countSpan.textContent);
-            countSpan.textContent = count + 1;
-        }
-
-        function sharePost(button) {
-            alert('Share this post');
-        }
-
-        function searchUser() {
-            var input = document.getElementById('searchUserInput').value;
-            alert('Search for: ' + input);
-        }
-
-        function showScreenManagement() {
-            alert('Show screen management options');
-        }
-
-        function showExercises() {
-            alert('Show exercises');
-        }
-
-        function setScreenTimeLimit() {
-            alert('Set daily screen time limit');
-        }
-
-        function togglePositiveContent() {
-            var button = document.getElementById('togglePositiveContentBtn');
-            button.textContent = button.textContent.includes('Enable') ? 'Disable Positive Content' : 'Enable Positive Content';
         }
