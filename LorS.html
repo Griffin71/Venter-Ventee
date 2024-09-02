@@ -8,18 +8,18 @@
     <link rel="stylesheet" href="LorS.css">
 </head>
 <body>
-    <div class="left">
-        <div class="content">
-            <h1>Welcome Back</h1>
-            <img src="2.png" alt="Welcome Image">
-            <form id="sign-in-form">
+    <div class="container">
+        <div class="left">
+            <div class="content">
+                <h1>Welcome Back</h1>
+                <img src="2.png" alt="Welcome Image">
                 <input type="text" id="username" placeholder="Username" name="Username" required>
                 <input type="password" id="password" placeholder="Password" name="Password" required>
                 <label><input type="checkbox"> Remember me on this device</label>
-                <button type="submit">Login</button>
-            </form>
-            <button><a href="Sign up.html">Don't have an account?</a></button>
-            <button onclick="openForgotPasswordModal()">Forgot Password</button>
+                <button type="submit" id="loginButton">Login</button>
+                <button><a href="Sign-up.html">Don't have an account?</a></button>
+                <button onclick="openForgotPasswordModal()">Forgot Password</button>
+            </div>
         </div>
     </div>
     <div id="forgotPasswordModal" style="display: none;">
