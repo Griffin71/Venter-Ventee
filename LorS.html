@@ -12,10 +12,12 @@
         <div class="content">
             <h1>Welcome Back</h1>
             <img src="2.png" alt="Welcome Image">
-            <input type="text" id="username" placeholder="Username" name="Username" required>
-            <input type="password" id="password" placeholder="Password" name="Password" required>
-            <label><input type="checkbox"> Remember me on this device</label>
-             <button><a href ="feed.html>Login</button>
+            <form id="sign-in-form">
+                <input type="text" id="username" placeholder="Username" name="Username" required>
+                <input type="password" id="password" placeholder="Password" name="Password" required>
+                <label><input type="checkbox"> Remember me on this device</label>
+                <button type="submit">Login</button>
+            </form>
             <button><a href="Sign up.html">Don't have an account?</a></button>
             <button onclick="openForgotPasswordModal()">Forgot Password</button>
         </div>
