@@ -5,7 +5,7 @@ body, html {
     font-family: "Times New Roman", serif;
     background-color: #29021A; /* Dark maroon */
     background-image: linear-gradient(45deg, #29021A, #4A0D41); /* Gradient with deeper purple */
-    color: #FFC0CB; /* Light pink */
+    color: #F8BBD0; /* Subtle light pink */
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
@@ -34,8 +34,8 @@ body, html {
 }
 
 .left {
-    background-color: rgba(255, 105, 180, 0.8); /* Light pink with opacity */
-    border-right: 2px solid #FF69B4; /* Bright pink border */
+    background-color: rgba(248, 187, 208, 0.8); /* Subtle pink with opacity */
+    border-right: 2px solid #F48FB1; /* Subtle pink border */
 }
 
 .right {
@@ -51,7 +51,7 @@ body, html {
 /* Headings */
 h1, h2 {
     margin-bottom: 20px;
-    color: #FF69B4; /* Bright pink */
+    color: #F48FB1; /* Subtle pink */
 }
 
 /* Images */
@@ -67,10 +67,10 @@ input[type="text"], input[type="password"], input[type="email"] {
     padding: 10px;
     margin: 10px 0;
     box-sizing: border-box;
-    border: 2px solid #FF69B4; /* Bright pink border */
+    border: 2px solid #F48FB1; /* Subtle pink border */
     border-radius: 5px;
     background-color: #4A0D41; /* Dark purple background */
-    color: #FFC0CB; /* Light pink text */
+    color: #F8BBD0; /* Subtle light pink text */
 }
 
 /* Buttons */
@@ -78,7 +78,7 @@ button {
     padding: 10px 20px;
     margin: 10px;
     border: none;
-    background-color: #FF69B4; /* Bright pink */
+    background-color: #F48FB1; /* Subtle pink */
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -91,34 +91,14 @@ button a {
 }
 
 button:hover {
-    background-color: #C71585; /* Deeper pink */
+    background-color: #C2185B; /* Slightly deeper pink */
 }
 
 /* Labels */
 label {
     display: block;
     margin: 10px 0;
-    color: #FFC0CB; /* Light pink */
-}
-
-/* Ball Animation */
-.ball {
-    position: absolute;
-    width: 33px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    animation: pop 9s forwards;
-}
-
-@keyframes pop {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    color: #F8BBD0; /* Subtle light pink */
 }
 
 /* Forgot Password Modal */
