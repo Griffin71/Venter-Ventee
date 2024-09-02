@@ -5,7 +5,7 @@ body, html {
     font-family: "Times New Roman", serif;
     background-color: #29021A; /* Dark maroon */
     background-image: linear-gradient(45deg, #29021A, #4A0D41); /* Gradient with deeper purple */
-    color: #F8BBD0; /* Subtle light pink */
+    color: #FFB6C1; /* Subtle light pink */
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
@@ -23,24 +23,16 @@ body, html {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Left and Right Sections */
-.left, .right {
+/* Left Section */
+.left {
     flex: 1;
     padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-}
-
-.left {
-    background-color: rgba(248, 187, 208, 0.8); /* Subtle pink with opacity */
-    border-right: 2px solid #F48FB1; /* Subtle pink border */
-}
-
-.right {
-    background-color: rgba(173, 216, 230, 0.5); /* Light blue with opacity */
-    overflow-y: auto;
+    background-color: rgba(255, 182, 193, 0.6); /* Subtle light pink with opacity */
+    border-right: 2px solid #FFB6C1; /* Subtle pink border */
 }
 
 .content {
@@ -51,7 +43,7 @@ body, html {
 /* Headings */
 h1, h2 {
     margin-bottom: 20px;
-    color: #F48FB1; /* Subtle pink */
+    color: #FF69B4; /* Bright pink */
 }
 
 /* Images */
@@ -67,10 +59,10 @@ input[type="text"], input[type="password"], input[type="email"] {
     padding: 10px;
     margin: 10px 0;
     box-sizing: border-box;
-    border: 2px solid #F48FB1; /* Subtle pink border */
+    border: 2px solid #FF69B4; /* Bright pink border */
     border-radius: 5px;
     background-color: #4A0D41; /* Dark purple background */
-    color: #F8BBD0; /* Subtle light pink text */
+    color: #FFB6C1; /* Subtle pink text */
 }
 
 /* Buttons */
@@ -78,7 +70,7 @@ button {
     padding: 10px 20px;
     margin: 10px;
     border: none;
-    background-color: #F48FB1; /* Subtle pink */
+    background-color: #FFB6C1; /* Subtle pink */
     color: white;
     cursor: pointer;
     border-radius: 5px;
@@ -91,14 +83,14 @@ button a {
 }
 
 button:hover {
-    background-color: #C2185B; /* Slightly deeper pink */
+    background-color: #C71585; /* Deeper pink */
 }
 
 /* Labels */
 label {
     display: block;
     margin: 10px 0;
-    color: #F8BBD0; /* Subtle light pink */
+    color: #FFC0CB; /* Light pink */
 }
 
 /* Forgot Password Modal */
@@ -125,13 +117,10 @@ label {
     .container {
         flex-direction: column;
     }
-    .left, .right {
+    .left {
         width: 100%;
         height: auto;
-        border-right: none; /* Remove border in smaller screens */
-    }
-    body {
-        flex-direction: column;
+        border-right: none; /* Remove border on smaller screens */
     }
     .content {
         width: 90%;
